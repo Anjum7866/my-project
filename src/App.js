@@ -29,6 +29,7 @@ function App() {
     <div >
       <Card>
       <Card.Body>
+     
       <Form className='mb-8' noValidate validated={validated} onSubmit={handleSubmit}>
       <Card>
         <Card.Body>
@@ -217,8 +218,7 @@ function App() {
         </Card.Body>
       </Card>
     </Form>
-    </div>
-    </div>
+   
 </Card.Body>
       </Card>
 
