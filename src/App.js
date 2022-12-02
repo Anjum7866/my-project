@@ -6,6 +6,7 @@ import Row from 'react-bootstrap/Row';
 import Modal from 'react-bootstrap/Modal';
 import Card from 'react-bootstrap/Card';
 import logo from './logo1.png'
+import './App.css'
 
 function App() {
   const [validated, setValidated] = useState(false);
@@ -28,22 +29,6 @@ function App() {
     <div >
       <Card>
       <Card.Body>
-      <div class="row">
-      <div class="col-sm-8 offset-sm-2 bg-warning1">
-      <div class="row">
-                  <div class="col-md-2">
-                  <img src={logo} alt='logo' style={{width:"150px"}}/>
-                </div>
-                <div class="col text-center">
-                <Card.Title className='mt-8'><h3 style={{margintop:"50px !important"}}>Client Service Sheet</h3></Card.Title>
-                </div>
-                <div class="col-md-4 border " style={{margintop:"20px", marginright:"10px"}}>
-                      <label class="mt-2">Job No: ___________________</label>
-                      <label >Logged in by: _____________</label>
-                      <label>Date: ______________________</label>
-                      <label>Time: ______________________</label>
-                      </div>
-</div>
       <Form className='mb-8' noValidate validated={validated} onSubmit={handleSubmit}>
       <Card>
         <Card.Body>
