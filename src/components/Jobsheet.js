@@ -9,6 +9,8 @@ import logo from '../logo1.png'
 import '../App.css'
 import axios from "axios";
 import {toast} from "react-toastify"; 
+import { useNavigate } from "react-router-dom";
+
 
 const initialState ={
   full_name: "",
@@ -25,50 +27,94 @@ const initialState ={
   accessories:"",
   special_notes:"", 
   service_option_other:"", 
-  service_option:""
+  service_option:"",
+  sales_reference:""
 }
 
-const Jobsheet = ({navigation}) => {
-
+const Jobsheet=  React.forwardRef((props, ref) =>  {
+  const navigate =useNavigate();
+  
   const [validated, setValidated] = useState(false);
   const [show, setShow] = useState(false);
   const [state , setState] = useState(initialState);
-  const {full_name, company, address, postal_code, email, contact_no, password, fault, data_backed_up, equipment, serial_no, accessories, special_notes, service_option_other, service_option} =state;
+  const {full_name, company, address, postal_code, contact_no, password, fault, data_backed_up, equipment, serial_no, accessories, special_notes, service_option_other, service_option, sales_reference} =state;
+  const [email, setEmail] = useState("");
   
+    const full_nameRef = React.useRef();
+    const companyRef = React.useRef();
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
 
   
-  const handleSubmit = (e) => {
+  const handleSubmit =async (e) => {
     e.preventDefault();
-    if(!full_name || !address || !postal_code || !email || !contact_no || !fault || !serial_no || !equipment){
+    
+    if(!full_name || !address || !postal_code || !email || !contact_no || !fault ){
       toast.error("All fields are required")
     }else{
-      axios.post("http://localhost:4000/api/jobsheet/",{
+      const response =await  axios.post("http://localhost:4000/api/jobsheet/",{
         full_name,
+        company,
         address,
         postal_code,
         email,
         contact_no,
+        password,
         fault,
+        data_backed_up,
         serial_no,
-        equipment
-    }).then(()=>{
-        setState({full_name:"", address:"", postal_code:"", email:"", contact_no:"", fault:"", serial_no:"", equipment:""})
-    }).catch((err) => toast.error(err.response.data));
-    toast.success("Jobsheet Added Successfully");
-    setTimeout(()=>{
-    },500)
+        equipment, 
+        accessories,
+        special_notes,
+        service_option,
+        service_option_other,
+        sales_reference
+
+    })
+    if(response.status ===200){
+      setState(response.data);   
+      toast.success("Jobsheet Added Successfully");
+      const res = await fetch("http://localhost:4000/api/email/register", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+            email
+        })
+    });
+
+    const data = await res.json();
+    console.log(response.data);
+
+    if (data.status === 401 || !data) {
+        console.log("error")
+    } else {
+        setShow(true);
+        setEmail("")
+        console.log("Email sent")
     }
-    setValidated(true);
+      navigate('/print')
+    }
+  }
+  setValidated(true);
 }
+
+// const handleInputChange = (e) => {
+//   setState({
+//     ...state,
+
+//     // Trimming any whitespace
+//     [e.target.name]: e.target.value.trim()
+//   });
+// };
 
 const handleInputChange = (e) =>{
     const {name, value} = e.target;
     setState({...state, [name]:value});
 };
   return (
-    <div >
+    <div ref={ref}>
       <Card>
       <Card.Body>
       <div class="row">
@@ -100,6 +146,7 @@ const handleInputChange = (e) =>{
             id="full_name"
             name="full_name" 
             value={full_name || ""} 
+            ref={full_nameRef}
             onChange={handleInputChange}
             placeholder="Full name"
           />
@@ -163,8 +210,9 @@ const handleInputChange = (e) =>{
           <Form.Control type="text"
           id="email"
           name="email" 
-          value={email || ""} 
-          onChange={handleInputChange}
+          value={email || ""}
+          onChange={(e) => setEmail(e.target.value)} 
+          
           placeholder="Enter Email" required />
           <Form.Control.Feedback type="invalid">
            Email is required.
@@ -201,15 +249,19 @@ const handleInputChange = (e) =>{
         <div key={`inline-${type}`} className="mb-3">
           <Form.Check
             inline
+            key="bool"
+            value="yes"
             label="yes"
-            name="yes"
+            name="data_backup"
             type={type}
             id={`inline-${type}-1`}
+            checked
           />
           <Form.Check
             inline
             label="no"
-            name="no"
+            name="data_backup"
+            value="no"
             type={type}
             id={`inline-${type}-2`}
           />
@@ -326,7 +378,7 @@ const handleInputChange = (e) =>{
         </Modal.Footer>
       </Modal>
 
-      <Button type="submit">Submit</Button>
+      <Button type="submit" >Submit</Button>
       
         </Card.Body>
       </Card>
@@ -339,5 +391,5 @@ const handleInputChange = (e) =>{
     </div>
     
   );
-}
+});
 export default Jobsheet;

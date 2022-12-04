@@ -24,6 +24,9 @@ const Sidebar = () => {
             <NavLink exact to="/dashboard" >
               <CDBSidebarMenuItem icon="user"><a href="/dashboard">Client Sheet List</a></CDBSidebarMenuItem>
             </NavLink>
+            <NavLink exact to="/login" >
+              <CDBSidebarMenuItem ><a href="/login">LogOut</a></CDBSidebarMenuItem>
+            </NavLink>
           </CDBSidebarMenu>
         </CDBSidebarContent>
 

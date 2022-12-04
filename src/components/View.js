@@ -1,10 +1,7 @@
 import React, {useState, useEffect} from 'react'
-import { useParams, Link} from "react-router-dom";
+import { useParams} from "react-router-dom";
 import axios from "axios";
-import { Card, Button } from 'react-bootstrap';
-import Col from 'react-bootstrap/Col';
-import Form from 'react-bootstrap/Form';
-import Row from 'react-bootstrap/Row';
+import { Card } from 'react-bootstrap';
 
 const View = React.forwardRef((props, ref) => {
   const [jobsheet , setJobsheet] = useState(null);

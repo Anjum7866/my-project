@@ -25,6 +25,9 @@ const Login = () =>{
   // }
   const handleSubmit = (e) => {  
     e.preventDefault();
+    if( !values.email || !values.password){
+      toast.error("All fields are required")
+    }else{
   axios.post("http://localhost:4000/api/users/login", {
     email:values.email,
     password:values.password
@@ -32,10 +35,11 @@ const Login = () =>{
         console.log(res.data);
         toast.success("Login Successfully");
         navigate('/dashboard')
-      }).catch((err) => toast.error(err.response.data));
+      }).catch((err) =>
+      toast.error(err.response.data));
       
 }
-
+  }
   return (
     <div className='maincontent'>
        <Card>
@@ -58,7 +62,7 @@ const Login = () =>{
         </Form.Control.Feedback>
       </Form.Group>
       <Form.Group className="mb-3" controlId="formBasicCheckbox">
-        <Form.Check type="checkbox" label="Check me out" />
+        <Form.Check type="checkbox" label="Check me out" required/>
       </Form.Group>
       <Button variant="primary" type="submit">
         Submit
