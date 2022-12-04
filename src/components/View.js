@@ -2,72 +2,81 @@ import React, {useState, useEffect} from 'react'
 import { useParams, Link} from "react-router-dom";
 import axios from "axios";
 import { Card, Button } from 'react-bootstrap';
-import Sidebar from './Sidebar';
 import Col from 'react-bootstrap/Col';
 import Form from 'react-bootstrap/Form';
 import Row from 'react-bootstrap/Row';
 
-// const initialState ={
-//     full_name: "",
-//     company:"",
-//     address:"",
-//     postal_code:"",
-//     email: "",
-//     contact_no: "",
-//     password:"",
-//     fault: "",
-//     data_backed_up:"",
-//     equipment:"",
-//     serial_no:"",
-//     accessories:"",
-//     special_notes:"", 
-//     service_option_other:"", 
-//     service_option:""
-//   }
-const View = () => {
-    const [jobsheet , setJobsheet] = useState();
-    
-    const {id } =useParams();
+const View = React.forwardRef((props, ref) => {
+  const [jobsheet , setJobsheet] = useState(null);
+       
+   const {id } =useParams();
     useEffect(()=>{
-        axios.get(`http://localhost:4000/api/jobsheet/${id}`)
-        .then((resp)=>setJobsheet({...resp.data[0]}));
+       if(id){
+        console.log(id)
+        getSingleJobsheet(id);
+      }
       },[id])
+      
+    const getSingleJobsheet = async (id) => {
+       const response = await axios.get(`http://localhost:4000/api/jobsheet/${id}`)
+       if(response.status===200){
+        setJobsheet(response.data)
+        console.log( jobsheet)
+       }
+      }
 
       return (
-    <div style={{ display: 'flex'}}>
-       <Sidebar/>
+    <div style={{ display: 'flex'}} ref={ref}>
        <div style={{margin:'20px'}}>
-    <Card style={{ width: '18rem' }}>
+    <Card>
       
       <Card.Body>
         <Card.Title>Jobsheet Contact Details</Card.Title>
-        <Row className="mb-1">
-        <Form.Group as={Col} md="12" >
-          <Form.Label>Full name:{jobsheet.full_name}</Form.Label>
-        </Form.Group>
-      </Row>
-        <Card.Text>
-        Job ID:{id}
-        </Card.Text>
-        <Card.Text>
-         Name:{jobsheet.full_name}
-        </Card.Text>
-        <Card.Text>
-         Email:{jobsheet.email}
-        </Card.Text>
-        <Card.Text>
-         Contact:{jobsheet.contact}
-        </Card.Text>
-        <Link to="/client">
-      <Button variant="primary" type="back">
-        Go Back
-      </Button >
-      </Link>
+        <table className='styled-table'>
+        <tbody>
+              <tr >
+                <th scode="row">Job No.{id}</th>
+                {/* <td>Full Name:&nbsp; &nbsp;{jobsheet.full_name}</td> */}
+              </tr>
+              {/* <tr>
+              <td>Address:&nbsp; &nbsp;{jobsheet.address}</td>
+              <td>Postal Code:&nbsp; &nbsp;{jobsheet.postal_code}</td>
+            </tr>
+              <tr>
+              <td>Contact No:&nbsp; &nbsp;{jobsheet.contact_no}</td>
+              <td>Email:&nbsp; &nbsp;{jobsheet.email}</td>
+              <td>Login Password:&nbsp; &nbsp;{jobsheet.password}</td>
+            </tr>
+            <tr>
+              <td>Company:&nbsp; &nbsp;{jobsheet.company}</td>
+              <td>Fault:&nbsp; &nbsp;{jobsheet.fault}</td>
+              <td>Data Backup:&nbsp; &nbsp;{jobsheet.data_backup}</td>
+            </tr>
+            <tr>
+              <td>Equipment:&nbsp; &nbsp;{jobsheet.equipment}</td>
+              <td>Serial Number:&nbsp; &nbsp;{jobsheet.serial_no}</td>
+              <td>Accessories:&nbsp; &nbsp;{jobsheet.accessories}</td>
+            </tr>
+            <tr>
+              <td>Special Note:&nbsp; &nbsp;{jobsheet.equipment}</td>
+              <td>Service Option:&nbsp; &nbsp;{jobsheet.service_option}</td>
+              <td>Service Option Other:&nbsp; &nbsp;{jobsheet.service_option_other}</td>
+            </tr>
+            <tr>
+              <td>Date Time::&nbsp; &nbsp;{jobsheet.date}</td>
+              <td>Diagnosis:&nbsp; &nbsp;{jobsheet.diagnosis}</td>
+              <td>Status:&nbsp; &nbsp;{jobsheet.status}</td>
+            </tr> */}
+
+            
+        </tbody>
+       </table>
         </Card.Body>
     </Card>
     </div>
     </div>
   )
 }
+);
 
-export default View
+export default View;
