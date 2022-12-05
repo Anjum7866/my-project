@@ -28,24 +28,30 @@ const Login = () =>{
     if( !values.email || !values.password){
       toast.error("All fields are required")
     }else{
-  axios.post("http://localhost:4000/api/users/login", {
-    email:values.email,
-    password:values.password
-  }).then(res =>  {
-        console.log(res.data);
+      axios.post("http://localhost:4000/api/users/login", {
+        email:values.email,
+        password:values.password
+      }).then(response =>  {
+        console.log(response.data);
         toast.success("Login Successfully");
         navigate('/dashboard')
       }).catch((err) =>
-      toast.error(err.response.data));
+      toast.error("invalid credential"));
       
 }
   }
   return (
-    <div className='maincontent'>
-       <Card>
-      <Card.Body>
-      <div class="col-sm-8 offset-sm-2 bg-warning1">
-      <Form noValidate validated={validated} onSubmit={handleSubmit}>
+    <div >
+       <Card >
+        <Card.Title className='text-center mt-10'>
+          Admin Login
+        </Card.Title>
+      <Card.Body style={{ margin:"auto" }} >
+        <Card className='col-sm-12 '>
+        <div className="container mt-2" >
+        <div className="d-flex justify-content-center">
+    
+      <Form className='mt-2 col-lg-12' noValidate validated={validated} onSubmit={handleSubmit}>
       <Form.Group className="mb-3" controlId="formBasicEmail">
         <Form.Label>Email address</Form.Label>
         <Form.Control type="email" onChange={(e)=>setValues({...values, email:e.target.value})} placeholder="Enter email" />
@@ -69,7 +75,9 @@ const Login = () =>{
       </Button>
       </Form>
       </div>
-     
+     </div>
+        </Card>
+      
       </Card.Body>
       </Card>
     

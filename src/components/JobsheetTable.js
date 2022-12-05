@@ -1,11 +1,13 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {Link} from "react-router-dom";
 import '../App.css';
+import Alert from 'react-bootstrap/Alert';
+import Button from 'react-bootstrap/Button';
 
 const JobsheetTable = ({data}) => {
-   
     return (
     <div>
+     
             <table className='styled-table'>
         <thead>
           <tr>
@@ -13,6 +15,7 @@ const JobsheetTable = ({data}) => {
             <th style={{textAlign:'center'}}>Full Name</th>
             <th style={{textAlign:'center'}}>Email</th>
             <th style={{textAlign:'center'}}>Action</th>
+            <th style={{textAlign:'center'}}>Status</th>
           </tr>
         </thead>
         <tbody>
@@ -24,13 +27,16 @@ const JobsheetTable = ({data}) => {
                 <td>{item.email}</td>
                 <td>
                   <Link to={`/view/${item._id}`}>
-                  <button className='btn btn-view'>View</button>
+                  <Button variant="primary">View</Button>
                   </Link>
-                  <button className='btn btn-contact'>Request a machine</button>
+                  <Link to={`/machine/${item._id}`}>
+                  <Button variant="success">Request a machine</Button>
+                  </Link>
                   <Link to={`/print/${item._id}`}>
-                  <button className='btn btn-delete'>Print</button>
+                  <Button variant="info">Print</Button>
                   </Link>
                  </td>
+                 <td>{item.status}</td>
               </tr>
             )
           })}

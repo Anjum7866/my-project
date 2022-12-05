@@ -1,8 +1,8 @@
 import React, { useRef } from "react";
 import { useReactToPrint } from "react-to-print";
-import PrintJobsheet from "./PrintJobsheet";
+import Emptysheet from "./EmptySheet";
 
-const Print = () => {
+const Printemptysheet = () => {
   const componentRef = useRef();
   const handlePrint = useReactToPrint({
     content: () => componentRef.current
@@ -10,7 +10,7 @@ const Print = () => {
 
   return (
     <div>
-      <PrintJobsheet ref={componentRef} />
+      <Emptysheet ref={componentRef} />
       <button
         type="button"
         className="bg-gray-500 border border-gray-500 p-2 mb-4"
@@ -24,4 +24,4 @@ const Print = () => {
   );
 };
 
-export default Print
+export default Printemptysheet

@@ -10,7 +10,7 @@ import '../App.css'
 import axios from "axios";
 import {toast} from "react-toastify"; 
 import { useNavigate } from "react-router-dom";
-
+import { v4 as uuid } from 'uuid';
 
 const initialState ={
   full_name: "",
@@ -32,6 +32,8 @@ const initialState ={
 }
 
 const Jobsheet=  React.forwardRef((props, ref) =>  {
+  // const job_no =uuid();
+  
   const navigate =useNavigate();
   
   const [validated, setValidated] = useState(false);
@@ -52,7 +54,10 @@ const Jobsheet=  React.forwardRef((props, ref) =>  {
     if(!full_name || !address || !postal_code || !email || !contact_no || !fault ){
       toast.error("All fields are required")
     }else{
+     
+
       const response =await  axios.post("http://localhost:4000/api/jobsheet/",{
+        // job_no,
         full_name,
         company,
         address,
@@ -80,7 +85,7 @@ const Jobsheet=  React.forwardRef((props, ref) =>  {
             "Content-Type": "application/json"
         },
         body: JSON.stringify({
-            email
+            email, 
         })
     });
 
@@ -117,17 +122,17 @@ const handleInputChange = (e) =>{
     <div ref={ref}>
       <Card>
       <Card.Body>
-      <div class="row">
-      <div class="col-sm-8 offset-sm-2 bg-warning1">
-      <div class="row">
-                <div class="col-md-2">
+      <div className="row">
+      <div className="col-sm-8 offset-sm-2 bg-warning1">
+      <div className="row">
+                <div className="col-md-2">
                   <img src={logo} alt='logo' style={{width:"150px"}}/>
                 </div>
-                <div class="col text-center">
+                <div className="col text-center">
                 <Card.Title className='mt-8'><h3 style={{margintop:"50px !important"}}>Client Service Sheet</h3></Card.Title>
                 </div>
-                <div class="col-md-4 border " style={{margintop:"20px", marginright:"10px"}}>
-                      <label class="mt-2">Job No: ___________________</label>
+                <div className="col-md-4 border " style={{margintop:"20px", marginright:"10px"}}>
+                      <label className="mt-2">Job No: _________</label>
                       <label >Logged in by: _____________</label>
                       <label>Date: ______________________</label>
                       <label>Time: ______________________</label>

@@ -10,7 +10,7 @@ import axios from "axios";
 
 
 
-const Printjobsheet=  React.forwardRef((props, ref) =>  {
+const Emptysheet=  React.forwardRef((props, ref) =>  {
     const {id } =useParams();
     const [jobsheet , setJobsheet] = useState(
         {
@@ -44,19 +44,11 @@ const Printjobsheet=  React.forwardRef((props, ref) =>  {
           },[id])
           
         const getSingleJobsheet = async (id) => {
-        //   const response = await fetch(`http://localhost:4000/api/jobsheet/${id}`, {
-        //     method: "GET",
-        //     headers: {
-        //         "Content-Type": "application/json"
-        //     },
-        //     body: JSON.stringify({
-        //         job_no:id
-        //     })
-        // });
            const response = await axios.get(`http://localhost:4000/api/jobsheet/${id}`)
            if(response.status===200){
             setJobsheet(response.data)
-            }
+            console.log(jobsheet)
+           }
           }
     
   return (
@@ -73,7 +65,7 @@ const Printjobsheet=  React.forwardRef((props, ref) =>  {
                 <Card.Title ><h3 >Client Service Sheet</h3></Card.Title>
                 </div>
                 <div className="col-md-4 border " style={{margintop:"20px", marginright:"10px"}}>
-                      <label >Job No: {id}</label>
+                      <label >Job No: {jobsheet._id}</label>
                       <label >Logged in by: {jobsheet.date}</label>
                      
                 </div>
@@ -213,4 +205,4 @@ const Printjobsheet=  React.forwardRef((props, ref) =>  {
     
   );
 });
-export default Printjobsheet;
+export default Emptysheet;

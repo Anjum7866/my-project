@@ -12,14 +12,6 @@ const Home = () => {
 
     const sendEmail = async (e) => {
         e.preventDefault();
-        // const res = await axios({
-        //     url: 'http://localhost:4000/api/email/register',
-        //     method: 'POST',
-        //     headers: {
-        //         "Content-Type": "application/json"
-        //     },
-        //     data: JSON.stringify(email)
-        //   })
         
         const res = await fetch("http://localhost:4000/api/email/register", {
             method: "POST",

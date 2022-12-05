@@ -2,8 +2,8 @@ import React, {useState, useEffect} from 'react';
 import {Link} from "react-router-dom";
 import Sidebar from './Sidebar';
 import axios from "axios";
-import '../App.css';
 import JobsheetTable from './JobsheetTable';
+import Button from 'react-bootstrap/Button';
 
 function Dashboard() {
   const [jobsheet, setJobsheet] =useState([]);
@@ -24,7 +24,13 @@ function Dashboard() {
     <div style={{ display: 'flex'}}>
        <Sidebar/>
        <div style={{margin:'20px'}}>
-       <h1>Client Sheet List</h1>
+       
+
+        <Link to={"/emptysheet"}> 
+        <Button variant="primary">Print Empty Sheet</Button>
+        </Link>
+        
+       <h3>Client Sheet List</h3>
      
        <JobsheetTable data={jobsheet}/>
        </div> 

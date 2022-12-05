@@ -1,12 +1,35 @@
 import React, {useState, useEffect} from 'react'
 import { useParams} from "react-router-dom";
 import axios from "axios";
-import { Card } from 'react-bootstrap';
+import { Button, Card } from 'react-bootstrap';
+import Form from 'react-bootstrap/Form';
 
 const View = React.forwardRef((props, ref) => {
-  const [jobsheet , setJobsheet] = useState(null);
+  const {id } =useParams();
+  const [jobsheet , setJobsheet] = useState(
+    {
+      full_name: "",
+      company:"",
+      address:"",
+      postal_code:"",
+      email: "",
+      contact_no: "",
+      password:"",
+      fault: "",
+      data_backed_up:"",
+      equipment:"",
+      serial_no:"",
+      accessories:"",
+      special_notes:"", 
+      service_option_other:"", 
+      service_option:"",
+      sales_reference:"",
+      diagonosis:"",
+      status:""
+    }
+  );
+  const {full_name, company, address, postal_code, contact_no, password, fault, data_backed_up, equipment, serial_no, accessories, special_notes, service_option_other, service_option, sales_reference, diagonosis, status} =jobsheet;
        
-   const {id } =useParams();
     useEffect(()=>{
        if(id){
         console.log(id)
@@ -18,24 +41,30 @@ const View = React.forwardRef((props, ref) => {
        const response = await axios.get(`http://localhost:4000/api/jobsheet/${id}`)
        if(response.status===200){
         setJobsheet(response.data)
-        console.log( jobsheet)
+        console.log(jobsheet)
        }
       }
-
+ const onSubmit = async e =>{
+  e.preventDefault();
+  await axios.put(`http://localhost:4000/api/jobsheet/${id}`, jobsheet)
+ }
+ const handleInputChange = (e) =>{
+  const {name, value} = e.target;
+  setJobsheet({...jobsheet, [name]:value});
+};
       return (
-    <div style={{ display: 'flex'}} ref={ref}>
-       <div style={{margin:'20px'}}>
+    <div  style={{margin:'50px'}} ref={ref}>
     <Card>
       
       <Card.Body>
-        <Card.Title>Jobsheet Contact Details</Card.Title>
+        <Card.Title className='text-center'>View Jobsheet</Card.Title>
         <table className='styled-table'>
         <tbody>
               <tr >
                 <th scode="row">Job No.{id}</th>
-                {/* <td>Full Name:&nbsp; &nbsp;{jobsheet.full_name}</td> */}
+                <td>Full Name:&nbsp; &nbsp;{jobsheet.full_name}</td>
               </tr>
-              {/* <tr>
+              <tr>
               <td>Address:&nbsp; &nbsp;{jobsheet.address}</td>
               <td>Postal Code:&nbsp; &nbsp;{jobsheet.postal_code}</td>
             </tr>
@@ -61,16 +90,37 @@ const View = React.forwardRef((props, ref) => {
             </tr>
             <tr>
               <td>Date Time::&nbsp; &nbsp;{jobsheet.date}</td>
-              <td>Diagnosis:&nbsp; &nbsp;{jobsheet.diagnosis}</td>
+              <td>Diagonosis:&nbsp; &nbsp;{jobsheet.diagonosis}</td>
               <td>Status:&nbsp; &nbsp;{jobsheet.status}</td>
-            </tr> */}
+            </tr>
+            <tr>
+              <td></td>
+              <td><Form.Control
+            required
+            type="text"
+            id="diagonosis"
+            name="diagonosis" 
+            onChange={handleInputChange}
+            placeholder="Enter diagonosis"
+          /></td>
+              <td><Form.Control
+            required
+            type="text"
+            id="status"
+            name="status" 
+            placeholder="Enter Status"
+            onChange={handleInputChange}
+          /></td>
+            </tr>
+            <tr>
+              <Button type='submit' onClick={onSubmit}>Submit</Button>
+            </tr>
 
             
         </tbody>
        </table>
         </Card.Body>
     </Card>
-    </div>
     </div>
   )
 }
