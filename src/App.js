@@ -1,6 +1,6 @@
 import React from 'react';
 import AccountRoute from './routes/AccountRoute';
-import './App.css';
+// import './App.css';
 import { ToastContainer} from 'react-toastify';
   import 'react-toastify/dist/ReactToastify.css';
 

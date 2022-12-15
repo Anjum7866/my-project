@@ -1,41 +1,71 @@
 import React, {useState, useEffect} from 'react';
 import {Link} from "react-router-dom";
-import Sidebar from './Sidebar';
 import axios from "axios";
 import JobsheetTable from './JobsheetTable';
 import Button from 'react-bootstrap/Button';
 
-function Dashboard() {
-  const [jobsheet, setJobsheet] =useState([]);
+import adminLayout from "../hoc/adminLayout";
 
-  const loadData = async ()=>{
-    const response =await axios.get("http://localhost:4000/api/jobsheet/");
-    if(response.status ===200){
-      setJobsheet(response.data);   
-    }
-    
-  };
 
-  useEffect(()=>{
-   loadData();
-  },[])
+const Dashboard = () => {
+    const [jobsheet, setJobsheet] =useState([]);
 
-  return ( 
-    <div style={{ display: 'flex'}}>
-       <Sidebar/>
-       <div style={{margin:'20px'}}>
-       
-
-        <Link to={"/emptysheet"}> 
+    const loadData = async ()=>{
+      const response =await axios.get("http://localhost:4000/api/jobsheet/");
+      if(response.status ===200){
+        setJobsheet(response.data);   
+      }
+      
+    };
+  
+    useEffect(()=>{
+     loadData();
+    },[])
+  return (
+    <>
+    <div className="table-container">
+        <div className="row">
+            <div className="col">
+            <Link to={"/emptysheet"}> 
         <Button variant="primary">Print Empty Sheet</Button>
         </Link>
-        
-       <h3>Client Sheet List</h3>
-     
-       <JobsheetTable data={jobsheet}/>
-       </div> 
+                <h5 className="pb-2 mb-0">Client Sheet List</h5>
+            </div>
+            
+        </div>
+        <p>
+        It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English.
+        </p>
+       
+        <JobsheetTable data={jobsheet}/>
+      
+        <nav className="table-bottom-center-pagination" aria-label="Page navigation example ">
+            <ul className="pagination">
+                <li className="page-item">
+                <a className="page-link" href="#" aria-label="Previous">
+                    <span aria-hidden="true">&laquo;</span>
+                    <span className="sr-only">Previous</span>
+                </a>
+                </li>
+                <li className="page-item"><a className="page-link" href="#">1</a></li>
+                <li className="page-item"><a className="page-link" href="#">2</a></li>
+                <li className="page-item"><a className="page-link" href="#">3</a></li>
+                <li className="page-item">
+                <a className="page-link" href="#" aria-label="Next">
+                    <span aria-hidden="true">&raquo;</span>
+                    <span className="sr-only">Next</span>
+                </a>
+                </li>
+            </ul>
+        </nav>
     </div>
+  
+                
+    </>
   )
 }
 
-export default Dashboard
+
+
+
+export default adminLayout(Dashboard);

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Button from 'react-bootstrap/Button';
 import Col from 'react-bootstrap/Col';
 import Form from 'react-bootstrap/Form';
@@ -32,8 +32,17 @@ const initialState ={
 }
 
 const Jobsheet=  React.forwardRef((props, ref) =>  {
-  // const job_no =uuid();
   
+  const [num, setNum] = useState(0);
+
+  function randomNumberInRange(min, max) {
+    // 👇️ get number between min (inclusive) and max (inclusive)
+    return Math.floor(Math.random() * (max - min + 1)) + min;
+  }
+  useEffect(() => {
+      setNum(randomNumberInRange(1, 10000));
+  }, []);
+ const job_no =num;
   const navigate =useNavigate();
   
   const [validated, setValidated] = useState(false);
@@ -129,10 +138,10 @@ const handleInputChange = (e) =>{
                   <img src={logo} alt='logo' style={{width:"150px"}}/>
                 </div>
                 <div className="col text-center">
-                <Card.Title className='mt-8'><h3 style={{margintop:"50px !important"}}>Client Service Sheet</h3></Card.Title>
+                <Card.Title className='mt-8' style={{marginTop:"50px"}}><h3 style={{margintop:"50px !important"}}>Client Service Sheet</h3></Card.Title>
                 </div>
-                <div className="col-md-4 border " style={{margintop:"20px", marginright:"10px"}}>
-                      <label className="mt-2">Job No: _________</label>
+                <div className="col-md-4 border " style={{marginTop:"20px", marginRight:"10px"}}>
+                      <label className="mt-2">Job No: JOB{job_no}</label>
                       <label >Logged in by: _____________</label>
                       <label>Date: ______________________</label>
                       <label>Time: ______________________</label>

@@ -3,6 +3,7 @@ import { useParams} from "react-router-dom";
 import axios from "axios";
 import { Button, Card } from 'react-bootstrap';
 import Form from 'react-bootstrap/Form';
+import adminLayout from "../hoc/adminLayout";
 
 const View = React.forwardRef((props, ref) => {
   const {id } =useParams();
@@ -29,7 +30,34 @@ const View = React.forwardRef((props, ref) => {
     }
   );
   const {full_name, company, address, postal_code, contact_no, password, fault, data_backed_up, equipment, serial_no, accessories, special_notes, service_option_other, service_option, sales_reference, diagonosis, status} =jobsheet;
-       
+  const [show, setShow] = useState(false);
+    
+    const {email} =jobsheet;
+  const sendEmail = async (e) => {
+    e.preventDefault();
+    console.log(jobsheet.email)
+    const res = await fetch("http://localhost:4000/api/machine/register", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+            email
+        })
+    });
+
+    const data = await res.json();
+    console.log(data);
+
+    if (data.status === 401 || !data) {
+        console.log("error")
+    } else {
+        setShow(true);
+        
+        console.log("Email sent")
+    }
+}
+
     useEffect(()=>{
        if(id){
         console.log(id)
@@ -54,11 +82,14 @@ const View = React.forwardRef((props, ref) => {
 };
       return (
     <div  style={{margin:'50px'}} ref={ref}>
+    
     <Card>
+
       
       <Card.Body>
         <Card.Title className='text-center'>View Jobsheet</Card.Title>
-        <table className='styled-table'>
+        <div className="d-flex text-muted">
+        <table className="table">
         <tbody>
               <tr >
                 <th scode="row">Job No.{id}</th>
@@ -71,30 +102,33 @@ const View = React.forwardRef((props, ref) => {
               <tr>
               <td>Contact No:&nbsp; &nbsp;{jobsheet.contact_no}</td>
               <td>Email:&nbsp; &nbsp;{jobsheet.email}</td>
-              <td>Login Password:&nbsp; &nbsp;{jobsheet.password}</td>
             </tr>
             <tr>
+            <td>Login Password:&nbsp; &nbsp;{jobsheet.password}</td>
               <td>Company:&nbsp; &nbsp;{jobsheet.company}</td>
-              <td>Fault:&nbsp; &nbsp;{jobsheet.fault}</td>
+            </tr>
+            <tr>
+            <td>Fault:&nbsp; &nbsp;{jobsheet.fault}</td>
               <td>Data Backup:&nbsp; &nbsp;{jobsheet.data_backup}</td>
             </tr>
             <tr>
               <td>Equipment:&nbsp; &nbsp;{jobsheet.equipment}</td>
               <td>Serial Number:&nbsp; &nbsp;{jobsheet.serial_no}</td>
-              <td>Accessories:&nbsp; &nbsp;{jobsheet.accessories}</td>
             </tr>
             <tr>
+            <td>Accessories:&nbsp; &nbsp;{jobsheet.accessories}</td>
               <td>Special Note:&nbsp; &nbsp;{jobsheet.equipment}</td>
-              <td>Service Option:&nbsp; &nbsp;{jobsheet.service_option}</td>
+            </tr>
+            <tr>
+            <td>Service Option:&nbsp; &nbsp;{jobsheet.service_option}</td>
               <td>Service Option Other:&nbsp; &nbsp;{jobsheet.service_option_other}</td>
             </tr>
             <tr>
               <td>Date Time::&nbsp; &nbsp;{jobsheet.date}</td>
               <td>Diagonosis:&nbsp; &nbsp;{jobsheet.diagonosis}</td>
-              <td>Status:&nbsp; &nbsp;{jobsheet.status}</td>
             </tr>
             <tr>
-              <td></td>
+              <td>Status:&nbsp; &nbsp;{jobsheet.status}</td>
               <td><Form.Control
             required
             type="text"
@@ -103,7 +137,9 @@ const View = React.forwardRef((props, ref) => {
             onChange={handleInputChange}
             placeholder="Enter diagonosis"
           /></td>
-              <td><Form.Control
+            </tr>
+            <tr>
+            <td><Form.Control
             required
             type="text"
             id="status"
@@ -111,6 +147,7 @@ const View = React.forwardRef((props, ref) => {
             placeholder="Enter Status"
             onChange={handleInputChange}
           /></td>
+           <Button variant='success' onClick={sendEmail}>Request a machine</Button>
             </tr>
             <tr>
               <Button type='submit' onClick={onSubmit}>Submit</Button>
@@ -119,6 +156,7 @@ const View = React.forwardRef((props, ref) => {
             
         </tbody>
        </table>
+       </div>
         </Card.Body>
     </Card>
     </div>
@@ -126,4 +164,4 @@ const View = React.forwardRef((props, ref) => {
 }
 );
 
-export default View;
+export default adminLayout(View);

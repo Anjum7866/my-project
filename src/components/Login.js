@@ -2,11 +2,10 @@ import React, { useState } from 'react';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import '../App.css'
-import Card from 'react-bootstrap/Card';
 import axios from "axios";
 import {toast} from "react-toastify"; 
 import { useNavigate } from "react-router-dom";
-
+import authLayout from '../hoc/authLayout';
 
 const Login = () =>{
   const navigate =useNavigate();
@@ -17,12 +16,6 @@ const Login = () =>{
     showpassword: false
   });
   
-  // const handlePassVisibility = ()=>{
-  //   setValues({
-  //     ...values,
-  //     showpassword:!values.showpassword,
-  //   })
-  // }
   const handleSubmit = (e) => {  
     e.preventDefault();
     if( !values.email || !values.password){
@@ -41,16 +34,7 @@ const Login = () =>{
 }
   }
   return (
-    <div >
-       <Card >
-        <Card.Title className='text-center mt-10'>
-          Admin Login
-        </Card.Title>
-      <Card.Body style={{ margin:"auto" }} >
-        <Card className='col-sm-12 '>
-        <div className="container mt-2" >
-        <div className="d-flex justify-content-center">
-    
+    <div>
       <Form className='mt-2 col-lg-12' noValidate validated={validated} onSubmit={handleSubmit}>
       <Form.Group className="mb-3" controlId="formBasicEmail">
         <Form.Label>Email address</Form.Label>
@@ -74,15 +58,11 @@ const Login = () =>{
         Submit
       </Button>
       </Form>
-      </div>
-     </div>
-        </Card>
-      
-      </Card.Body>
-      </Card>
+     
+    
     
     </div>
   );
 }
 
-export default Login;
+export default authLayout(Login);

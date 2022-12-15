@@ -1,25 +1,24 @@
-import React, {useState} from 'react';
+import React from 'react';
 import {Link} from "react-router-dom";
 import '../App.css';
-import Alert from 'react-bootstrap/Alert';
 import Button from 'react-bootstrap/Button';
 
 const JobsheetTable = ({data}) => {
     return (
-    <div>
      
-            <table className='styled-table'>
-        <thead>
-          <tr>
-            <th style={{textAlign:'center'}}>Job No.</th>
+       <div className="d-flex text-muted">
+                    <table className="table">
+                        <thead>
+                      
+            <tr><th style={{textAlign:'center'}}>Job No.</th>
             <th style={{textAlign:'center'}}>Full Name</th>
             <th style={{textAlign:'center'}}>Email</th>
             <th style={{textAlign:'center'}}>Action</th>
             <th style={{textAlign:'center'}}>Status</th>
           </tr>
-        </thead>
-        <tbody>
-          {data.map((item, index)=> {
+                        </thead>
+                        <tbody>
+                       {data.map((item, index)=> {
             return (
               <tr key={item.id}>
                 <th scode="row">{item._id}</th>
@@ -28,9 +27,6 @@ const JobsheetTable = ({data}) => {
                 <td>
                   <Link to={`/view/${item._id}`}>
                   <Button variant="primary">View</Button>
-                  </Link>
-                  <Link to={`/machine/${item._id}`}>
-                  <Button variant="success">Request a machine</Button>
                   </Link>
                   <Link to={`/print/${item._id}`}>
                   <Button variant="info">Print</Button>
@@ -41,8 +37,9 @@ const JobsheetTable = ({data}) => {
             )
           })}
         </tbody>
-       </table>
-    </div>
+
+                       </table>
+                </div>
   )
 }
 
