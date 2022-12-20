@@ -25,11 +25,11 @@ const View = React.forwardRef((props, ref) => {
       service_option_other:"", 
       service_option:"",
       sales_reference:"",
-      diagonosis:"",
+      diagnosis:"",
       status:""
     }
   );
-  const {full_name, company, address, postal_code, contact_no, password, fault, data_backed_up, equipment, serial_no, accessories, special_notes, service_option_other, service_option, sales_reference, diagonosis, status} =jobsheet;
+  const {full_name, company, address, postal_code, contact_no, password, fault, data_backed_up, equipment, serial_no, accessories, special_notes, service_option_other, service_option, sales_reference, diagnosis, status} =jobsheet;
   const [show, setShow] = useState(false);
     
     const {email} =jobsheet;
@@ -42,7 +42,7 @@ const View = React.forwardRef((props, ref) => {
             "Content-Type": "application/json"
         },
         body: JSON.stringify({
-            email
+            email, full_name, id
         })
     });
 
@@ -68,7 +68,8 @@ const View = React.forwardRef((props, ref) => {
     const getSingleJobsheet = async (id) => {
        const response = await axios.get(`http://localhost:4000/api/jobsheet/${id}`)
        if(response.status===200){
-        setJobsheet(response.data)
+        setJobsheet(response.data[0])
+        console.log(response.data[0], 'response')
         console.log(jobsheet)
        }
       }
@@ -125,17 +126,17 @@ const View = React.forwardRef((props, ref) => {
             </tr>
             <tr>
               <td>Date Time::&nbsp; &nbsp;{jobsheet.date}</td>
-              <td>Diagonosis:&nbsp; &nbsp;{jobsheet.diagonosis}</td>
+              <td>Diagonosis:&nbsp; &nbsp;{jobsheet.diagnosis}</td>
             </tr>
             <tr>
               <td>Status:&nbsp; &nbsp;{jobsheet.status}</td>
               <td><Form.Control
             required
             type="text"
-            id="diagonosis"
-            name="diagonosis" 
+            id="diagnosis"
+            name="diagnosis" 
             onChange={handleInputChange}
-            placeholder="Enter diagonosis"
+            placeholder="Enter diagnosis"
           /></td>
             </tr>
             <tr>

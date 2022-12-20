@@ -18,16 +18,16 @@ const JobsheetTable = ({data}) => {
           </tr>
                         </thead>
                         <tbody>
-                       {data.map((item, index)=> {
+            {data.map((item, index)=> {
             return (
               <tr key={item.id}>
-                <th scode="row">{item._id}</th>
+                <th scode="row">{item.job_no}</th>
                 <td>{item.full_name}</td>
                 <td>{item.email}</td>
                 <td>
-                  <Link to={`/view/${item._id}`}>
+                  <Link to={`/view/${item.job_no}`}>
                   <Button variant="primary">View</Button>
-                  </Link>
+                  </Link>&nbsp;&nbsp;
                   <Link to={`/print/${item._id}`}>
                   <Button variant="info">Print</Button>
                   </Link>

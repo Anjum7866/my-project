@@ -12,6 +12,7 @@ import axios from "axios";
 
 const Printjobsheet=  React.forwardRef((props, ref) =>  {
     const {id } =useParams();
+ 
     const [jobsheet , setJobsheet] = useState(
         {
           full_name: "",
@@ -55,7 +56,9 @@ const Printjobsheet=  React.forwardRef((props, ref) =>  {
         // });
            const response = await axios.get(`http://localhost:4000/api/jobsheet/${id}`)
            if(response.status===200){
-            setJobsheet(response.data)
+            setJobsheet(response.data[0])
+            console.log(response.data[0], 'response')
+        console.log(jobsheet)
             }
           }
     
@@ -96,7 +99,7 @@ const Printjobsheet=  React.forwardRef((props, ref) =>  {
       <Row >
         <Form.Group as={Col} md="6" >
           <Form.Label>Address:</Form.Label>
-          <label>{jobsheet.address || ""} </label>
+          <label>{jobsheet.address} </label>
         </Form.Group>
         <Form.Group as={Col} md="6" >
           <Form.Label>Postal Code:</Form.Label>
@@ -133,7 +136,6 @@ const Printjobsheet=  React.forwardRef((props, ref) =>  {
       </Row>
       
       
-    <hr/>
     <Row >
     
             <h5>TERMS & CONDITIONS:-</h5>
@@ -149,7 +151,6 @@ const Printjobsheet=  React.forwardRef((props, ref) =>  {
                 </ul></label> </h6>
          
     </Row>
-    <hr/>
       <Row >
     <Form.Group as={Col} md="6">
           <h6>Service Options:</h6>
@@ -187,7 +188,6 @@ const Printjobsheet=  React.forwardRef((props, ref) =>  {
           <label>{jobsheet.special_notes || ""} </label>
         </Form.Group>
       </Row>
-      <hr/>
     
       <Row >
         <Form.Group as={Col} md="12">

@@ -19,16 +19,16 @@ const initialState ={
   postal_code:"",
   email: "",
   contact_no: "",
-  password:"",
+  login_pwd:"",
   fault: "",
   data_backed_up:"",
   equipment:"",
-  serial_no:"",
+  serial_number:"",
   accessories:"",
   special_notes:"", 
   service_option_other:"", 
   service_option:"",
-  sales_reference:""
+  sales_ref:""
 }
 
 const Jobsheet=  React.forwardRef((props, ref) =>  {
@@ -48,7 +48,7 @@ const Jobsheet=  React.forwardRef((props, ref) =>  {
   const [validated, setValidated] = useState(false);
   const [show, setShow] = useState(false);
   const [state , setState] = useState(initialState);
-  const {full_name, company, address, postal_code, contact_no, password, fault, data_backed_up, equipment, serial_no, accessories, special_notes, service_option_other, service_option, sales_reference} =state;
+  const {full_name, company, address, postal_code, contact_no, login_pwd, fault, data_backed_up, equipment, serial_number, accessories, special_notes, service_option_other, service_option, sales_ref} =state;
   const [email, setEmail] = useState("");
   
     const full_nameRef = React.useRef();
@@ -66,23 +66,23 @@ const Jobsheet=  React.forwardRef((props, ref) =>  {
      
 
       const response =await  axios.post("http://localhost:4000/api/jobsheet/",{
-        // job_no,
         full_name,
-        company,
-        address,
-        postal_code,
-        email,
-        contact_no,
-        password,
-        fault,
-        data_backed_up,
-        serial_no,
-        equipment, 
-        accessories,
-        special_notes,
-        service_option,
-        service_option_other,
-        sales_reference
+    company,
+    address,
+    postal_code,
+    email,
+    contact_no,
+    login_pwd,
+    fault,
+    data_backed_up,
+    serial_number,
+    equipment, 
+    accessories,
+    special_notes,
+    service_option,
+    service_option_other,
+    sales_ref,
+    job_no
 
     })
     if(response.status ===200){
@@ -94,7 +94,7 @@ const Jobsheet=  React.forwardRef((props, ref) =>  {
             "Content-Type": "application/json"
         },
         body: JSON.stringify({
-            email, 
+            email, job_no
         })
     });
 
@@ -108,7 +108,7 @@ const Jobsheet=  React.forwardRef((props, ref) =>  {
         setEmail("")
         console.log("Email sent")
     }
-      navigate('/print')
+      navigate(`/print/${job_no}`)
     }
   }
   setValidated(true);
@@ -235,9 +235,9 @@ const handleInputChange = (e) =>{
         <Form.Group as={Col} md="6" >
           <Form.Label>Login Password</Form.Label>
           <Form.Control type="text" 
-          id="password"
-          name="password" 
-          value={password || ""} 
+          id="login_pwd"
+          name="login_pwd" 
+          value={login_pwd || ""} 
           onChange={handleInputChange}
           placeholder="Enter Login Password"/>
         </Form.Group>
@@ -295,9 +295,9 @@ const handleInputChange = (e) =>{
         <Form.Group as={Col} md="6">
           <Form.Label>Serial Number</Form.Label>
           <Form.Control type="text" as="textarea" rows={3}  
-          id="serial_no"
-          name="serial_no" 
-          value={serial_no || ""} 
+          id="serial_number"
+          name="serial_number" 
+          value={serial_number || ""} 
           onChange={handleInputChange}
           placeholder="Enter Serial Number"  />
 
@@ -327,13 +327,13 @@ const handleInputChange = (e) =>{
     <Form.Group as={Col} md="6">
           <h3>Service Options</h3>
               <Form>
-              <Form.Check aria-label="service_option" label="Priority" />
-              <Form.Check aria-label="option 2" label="3 Working Days" />
-              <Form.Check aria-label="option 3" label="5-7 Working Days" />
-              <Form.Check aria-label="option 4" label="Warranty" />
-              <Form.Check aria-label="option 5" label="Sales" />
-              <Form.Check aria-label="option 6" label="Return" />
-              <Form.Check aria-label="option 7" label="Other" />
+              <Form.Check aria-label="service_option[]"  name="service_option[]" label="Priority" />
+              <Form.Check aria-label="service_option[]"  name="service_option[]" label="3 Working Days" />
+              <Form.Check aria-label="option 3service_option[]"  name="service_option[]" label="5-7 Working Days" />
+              <Form.Check aria-label="service_option[]"  name="service_option[]" label="Warranty" />
+              <Form.Check aria-label="service_option[]"  name="service_option[]" label="Sales" />
+              <Form.Check aria-label="service_option[]"  name="service_option[]" label="Return" />
+              <Form.Check aria-label="service_option[]"  name="service_option[]" label="Other" />
               <Form.Control type="text" 
               id="service_option_other"
               name="service_option_other" 
@@ -345,11 +345,11 @@ const handleInputChange = (e) =>{
         <Form.Group as={Col} md="6">
           <h3>Sales Reference:</h3>
           
-              <Form.Check aria-label="option 2" label="Existing Client" />
-              <Form.Check aria-label="option 3" label="Apple Phone" />
-              <Form.Check aria-label="option 4" label="Referral" />
-              <Form.Check aria-label="option 5" label="Website" />
-              <Form.Check aria-label="option 1" label="Walk in" />
+              <Form.Check aria-label="sales_ref[]" name="sales_ref[]" label="Existing Client" />
+              <Form.Check aria-label="sales_ref[]" name="sales_ref[]" label="Apple Phone" />
+              <Form.Check aria-label="sales_ref[]" name="sales_ref[]" label="Referral" />
+              <Form.Check aria-label="sales_ref[]" name="sales_ref[]" label="Website" />
+              <Form.Check aria-label="sales_ref[]" name="sales_ref[]" label="Walk in" />
          </Form.Group>
       </Row>
 
